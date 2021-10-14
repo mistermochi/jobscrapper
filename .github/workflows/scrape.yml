@@ -25,4 +25,12 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Fetch latest data
       run: |-
-        scrapy runspider jobscrapper/spiders/workable.py && scrapy runspider jobscrapper/spiders/recruitee.py
+        scrapy crawl HTHKmain -a mongouri=${{ secrets.MONGOURI }} -s JOBDIR=jobs/HTHKmain
+    - name: Commit and push if it changed
+      run: |-
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push
