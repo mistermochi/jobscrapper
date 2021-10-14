@@ -4,7 +4,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron:  '0 13 * * 1'
+    - cron:  '* */4 * * *'
 
 jobs:
   scheduled:
@@ -26,11 +26,3 @@ jobs:
     - name: Fetch latest data
       run: |-
         scrapy runspider jobscrapper/spiders/workable.py && scrapy runspider jobscrapper/spiders/recruitee.py
-    - name: Commit and push if it changed
-      run: |-
-        git config user.name "Automated"
-        git config user.email "actions@users.noreply.github.com"
-        git add -A
-        timestamp=$(date -u)
-        git commit -m "Latest data: ${timestamp}" || exit 0
-        git push
