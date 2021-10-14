@@ -1,1 +1,4 @@
 Scrapy==2.3.0
+pymongo
+gpxpy
+"pymongo[srv]"
